@@ -18,5 +18,5 @@ router.get('/fishes', PageController.fishes)
 //Rota de Busca
 router.get('/search', SearchController.search)
 
-//Caso não exista a Rota procurada
+//exportando a rota
 export default router;

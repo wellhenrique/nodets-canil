@@ -1,27 +1,25 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import mustache from 'mustache-express'
-import path from 'path'
-import mainRoutes from './routes/index'
+import express from "express";
+import dotenv from "dotenv";
+import mustache from "mustache-express";
+import path from "path";
+import mainRoutes from "./routes/index";
 
-dotenv.config()
+dotenv.config();
+//definindo o servidor
+const server = express();
+//configurando a view engine como mustache
+server.set("view engine", "mustache");
+server.set("views", path.join(__dirname, "views"));
+server.engine("mustache", mustache());
+//Configurando o diretorio principal
+server.use(express.static(path.join(__dirname, "../public")));
 
-const server = express()
-
-server.set('view engine', 'mustache')
-server.set('views', path.join(__dirname,'views'))
-server.engine('mustache', mustache())
-
-server.use(express.static(path.join(__dirname, '../public')))
-
-server.use(mainRoutes)
+//Rotas Principais
+server.use(mainRoutes);
 
 //Caso a rota procurada não exista
 server.use((req, res) => {
-  res.send('Pagina não encontrada')
-})
-
-server.listen(process.env.PORT)
-
-
-
+  res.render('./pages/404')
+});
+//servidor
+server.listen(process.env.PORT);
